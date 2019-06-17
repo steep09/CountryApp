@@ -10,9 +10,11 @@ import UIKit
 
 class MainVC: UIViewController {
     
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var countryTableView: UITableView!
     
     var countries = [Country]()
+    var filteredCountries = [Country]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +23,7 @@ class MainVC: UIViewController {
         
         countryTableView.delegate = self
         countryTableView.dataSource = self
+        searchBar.delegate = self
     }
 
     func parseJson(urlToString: String) {
@@ -33,7 +36,7 @@ class MainVC: UIViewController {
                     self.countries = try JSONDecoder().decode([Country].self, from: data!)
                     
                     for sample in self.countries {
-                        print("\(sample.flag)")
+                        print("\(sample.population)")
                     }
                     
                     DispatchQueue.main.async {
@@ -68,5 +71,18 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detail = storyboard?.instantiateViewController(withIdentifier: "CountryDetailVC") as! CountryDetailVC
+        let json = countries[indexPath.row]
+        detail.initData(flag: json.flag, name: json.name, capital: json.capital, alpha2: json.alpha2Code, alpha3: json.alpha3Code, population: json.population)
+        present(detail, animated: false, completion: nil)
+    }
     
+}
+
+extension MainVC: UISearchBarDelegate {
+    
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//        
+//    }
 }
