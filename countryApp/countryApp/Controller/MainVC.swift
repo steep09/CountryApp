@@ -12,6 +12,7 @@ class MainVC: UIViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var countryTableView: UITableView!
+    @IBOutlet weak var resultsLbl: UILabel!
     
     var countries = [Country]()
     var filteredCountries = [Country]()
@@ -24,6 +25,9 @@ class MainVC: UIViewController {
         countryTableView.delegate = self
         countryTableView.dataSource = self
         searchBar.delegate = self
+        
+        resultsLbl.isHidden = true
+        
     }
 
     func parseJson(urlToString: String) {
@@ -35,8 +39,10 @@ class MainVC: UIViewController {
                 if error == nil {
                     self.countries = try JSONDecoder().decode([Country].self, from: data!)
                     
+                    self.filteredCountries = self.countries
+                    
                     for sample in self.countries {
-                        print("\(sample.population)")
+                        print(sample.flag)
                     }
                     
                     DispatchQueue.main.async {
@@ -54,12 +60,14 @@ class MainVC: UIViewController {
 extension MainVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countries.count
+        
+        return filteredCountries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CountryCell") as! CountryCell
-        let json = countries[indexPath.row]
+        
+        let json = filteredCountries[indexPath.row]
         
         if let url = NSURL(string: json.flag) {
             if let data = NSData(contentsOf: url as URL) {
@@ -82,7 +90,19 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
 
 extension MainVC: UISearchBarDelegate {
     
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        
-//    }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        filteredCountries = countries.filter({ country -> Bool in
+            guard let text = searchBar.text else { return false }
+            if country.name.contains(text) || country.alpha2Code.contains(text) || country.alpha3Code.contains(text) {
+                return true
+            } else {
+                countryTableView.isHidden = true
+                resultsLbl.isHidden = false
+                resultsLbl.text = "No results found for '\(searchBar.text)'"
+                return false
+            }
+        })
+        countryTableView.reloadData()
+    }
 }

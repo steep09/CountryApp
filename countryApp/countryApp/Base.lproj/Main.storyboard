@@ -58,7 +58,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="countryFlag" destination="j5P-gj-BcN" id="9n0-I3-mEC"/>
+                                            <outlet property="countryFlag" destination="j5P-gj-BcN" id="SJ4-pY-n2b"/>
                                             <outlet property="countryName" destination="gKa-Fs-4Zc" id="4hk-E9-vjJ"/>
                                         </connections>
                                     </tableViewCell>
@@ -84,6 +84,13 @@
                                 <rect key="frame" x="0.0" y="140" width="414" height="56"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="search"/>
                             </searchBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No results found for" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ql-OV-ZcQ">
+                                <rect key="frame" x="0.0" y="426" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -102,6 +109,7 @@
                     </view>
                     <connections>
                         <outlet property="countryTableView" destination="1dn-C3-2CY" id="K80-kx-EMU"/>
+                        <outlet property="resultsLbl" destination="1ql-OV-ZcQ" id="o7L-fH-3Tc"/>
                         <outlet property="searchBar" destination="JeU-oc-Lqd" id="JrH-2x-atQ"/>
                         <outlet property="searchDisplayController" destination="EfK-vD-Q7q" id="fSG-lp-z0s"/>
                     </connections>
