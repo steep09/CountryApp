@@ -81,7 +81,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detail = storyboard?.instantiateViewController(withIdentifier: "CountryDetailVC") as! CountryDetailVC
-        let json = countries[indexPath.row]
+        let json = filteredCountries[indexPath.row]
         detail.initData(flag: json.flag, name: json.name, capital: json.capital, alpha2: json.alpha2Code, alpha3: json.alpha3Code, population: json.population)
         present(detail, animated: false, completion: nil)
     }
@@ -97,9 +97,8 @@ extension MainVC: UISearchBarDelegate {
             if country.name.contains(text) || country.alpha2Code.contains(text) || country.alpha3Code.contains(text) {
                 return true
             } else {
-                countryTableView.isHidden = true
-                resultsLbl.isHidden = false
-                resultsLbl.text = "No results found for '\(searchBar.text)'"
+                
+                print("No results found for '\(searchBar.text!)'")
                 return false
             }
         })
