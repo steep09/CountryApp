@@ -98,7 +98,6 @@ extension MainVC: UISearchBarDelegate {
                 return true
             } else {
                 
-                print("No results found for '\(searchBar.text!)'")
                 return false
             }
         })
