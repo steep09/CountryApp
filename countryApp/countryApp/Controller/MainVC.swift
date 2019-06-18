@@ -92,15 +92,16 @@ extension MainVC: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
+        guard searchBar.text != "" else {
+            filteredCountries = countries
+            countryTableView.reloadData()
+            return
+        }
         filteredCountries = countries.filter({ country -> Bool in
             guard let text = searchBar.text else { return false }
-            if country.name.contains(text) || country.alpha2Code.contains(text) || country.alpha3Code.contains(text) {
-                return true
-            } else {
-                
-                return false
-            }
+            return country.name.contains(text) || country.alpha2Code.contains(text) || country.alpha3Code.contains(text)
         })
         countryTableView.reloadData()
     }
+    
 }
